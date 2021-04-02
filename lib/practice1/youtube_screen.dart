@@ -4,7 +4,6 @@ class YouTubeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final movieList = contentsList();
-    print(movieList);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -33,44 +32,45 @@ class YouTubeScreen extends StatelessWidget {
         ],
         backgroundColor: Colors.white,
       ),
-      body: ListView(children: [
-        Column(
-          children: [
-            categoryButton(
-              Icons.local_fire_department_sharp,
-              Icons.music_note,
-              '急上昇',
-              '音楽',
-            ),
-            categoryButton(
-              Icons.videogame_asset,
-              Icons.text_snippet,
-              'ゲーム',
-              'ニュース',
-            ),
-            categoryButton(
-              Icons.lightbulb,
-              Icons.wifi_tethering,
-              '学び',
-              'ライブ',
-            ),
-            categoryButton(
-              Icons.sports_baseball,
-              Icons.music_note,
-              'スポーツ',
-              '',
-            ),
-          ],
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          child: Text(
-            '急上昇動画',
-            style: TextStyle(fontSize: 20),
+      body: ListView(
+        shrinkWrap: true,
+        children: [
+          Column(
+            children: [
+              categoryButton(
+                Icons.local_fire_department_sharp,
+                Icons.music_note,
+                '急上昇',
+                '音楽',
+              ),
+              categoryButton(
+                Icons.videogame_asset,
+                Icons.text_snippet,
+                'ゲーム',
+                'ニュース',
+              ),
+              categoryButton(
+                Icons.lightbulb,
+                Icons.wifi_tethering,
+                '学び',
+                'ライブ',
+              ),
+              categoryButton(
+                Icons.sports_baseball,
+                Icons.music_note,
+                'スポーツ',
+                '',
+              ),
+            ],
           ),
-        ),
-        SingleChildScrollView(
-          child: ListView.builder(
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            child: Text(
+              '急上昇動画',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          ListView.builder(
             shrinkWrap: true,
             itemCount: movieList.length,
             itemBuilder: (context, index) {
@@ -80,8 +80,8 @@ class YouTubeScreen extends StatelessWidget {
               );
             },
           ),
-        ),
-      ]),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: true,
