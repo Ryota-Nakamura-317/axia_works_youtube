@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {},
-              child: Text('Next...'),
+              child: Text('estate'),
             ),
             ElevatedButton(
               onPressed: () {},
