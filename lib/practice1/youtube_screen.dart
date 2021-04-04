@@ -37,25 +37,25 @@ class YouTubeScreen extends StatelessWidget {
         children: [
           Column(
             children: [
-              categoryButton(
+              createCategoryButton(
                 Icons.local_fire_department_sharp,
                 Icons.music_note,
                 '急上昇',
                 '音楽',
               ),
-              categoryButton(
+              createCategoryButton(
                 Icons.videogame_asset,
                 Icons.text_snippet,
                 'ゲーム',
                 'ニュース',
               ),
-              categoryButton(
+              createCategoryButton(
                 Icons.lightbulb,
                 Icons.wifi_tethering,
                 '学び',
                 'ライブ',
               ),
-              categoryButton(
+              createCategoryButton(
                 Icons.sports_baseball,
                 Icons.music_note,
                 'スポーツ',
@@ -74,7 +74,7 @@ class YouTubeScreen extends StatelessWidget {
             shrinkWrap: true,
             itemCount: movieList.length,
             itemBuilder: (context, index) {
-              return movieContents(
+              return createMovieContents(
                 context,
                 movieList[index],
               );
@@ -114,7 +114,7 @@ class YouTubeScreen extends StatelessWidget {
     );
   }
 
-  Widget categoryButton(
+  Widget createCategoryButton(
       IconData icon, IconData icon2, String label, String label2) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -159,7 +159,7 @@ class YouTubeScreen extends StatelessWidget {
     );
   }
 
-  Widget movieContents(BuildContext context, MovieData data) {
+  Widget createMovieContents(BuildContext context, MovieData data) {
     return Column(
       children: [
         Image.asset(data.image),
