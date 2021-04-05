@@ -125,18 +125,21 @@ Widget _createBody() {
                         Row(
                           children: [
                             Icon(Icons.train, size: 20),
+                            SizedBox(width: 5),
                             Text('東京駅・品川駅・川崎駅・横浜駅・目黒駅'),
                           ],
                         ),
                         Row(
                           children: [
                             Icon(Icons.monetization_on, size: 20),
+                            SizedBox(width: 5),
                             Text('下限なし〜2,000万円'),
                           ],
                         ),
                         Row(
                           children: [
                             Icon(Icons.info_outline, size: 20),
+                            SizedBox(width: 5),
                             Text('1R〜4LDK / 10㎡以上 / 徒歩20分'),
                           ],
                         ),
@@ -220,7 +223,19 @@ Widget _createEstateInfo(BuildContext context, EstateData data) {
       ),
       child: Column(
         children: [
-          Image.asset(data.image, width: 500),
+          Expanded(
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+              child: Image.asset(
+                data.image,
+                width: 500,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           Container(
             padding: EdgeInsets.only(left: 20),
             child: Column(
@@ -242,6 +257,7 @@ Widget _createEstateInfo(BuildContext context, EstateData data) {
                 Row(
                   children: [
                     Icon(Icons.train, size: 20),
+                    SizedBox(width: 5),
                     Text(data.distance),
                   ],
                 ),
@@ -249,6 +265,7 @@ Widget _createEstateInfo(BuildContext context, EstateData data) {
                 Row(
                   children: [
                     Icon(Icons.monetization_on, size: 20),
+                    SizedBox(width: 5),
                     Text(data.large),
                   ],
                 ),
@@ -256,6 +273,7 @@ Widget _createEstateInfo(BuildContext context, EstateData data) {
                 Row(
                   children: [
                     Icon(Icons.info_outline, size: 20),
+                    SizedBox(width: 5),
                     Text(data.spec),
                   ],
                 ),
