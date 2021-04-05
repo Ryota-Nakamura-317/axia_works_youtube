@@ -57,7 +57,6 @@ Widget _createBottomNavigationBar() {
       BottomNavigationBarItem(
         icon: Badge(
           badgeContent: Text('1', style: TextStyle(color: Colors.white)),
-          position: BadgePosition.topEnd(top: -5, end: -5),
           child: Icon(Icons.message),
         ),
         label: 'メッセージ',
@@ -75,7 +74,7 @@ Widget _createBody() {
   return Column(
     children: [
       Container(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
         height: 160,
         child: Card(
           shape: RoundedRectangleBorder(
@@ -84,7 +83,7 @@ Widget _createBody() {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 6),
+                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                 child: Row(
                   children: [
                     SizedBox(width: 10),
@@ -183,7 +182,7 @@ Widget _createAppBar() {
         SizedBox(width: 10),
         Badge(
           badgeContent: Text('1', style: TextStyle(color: Colors.white)),
-          position: BadgePosition.topEnd(top: -5, end: -5),
+          position: BadgePosition.topEnd(top: -4, end: -4),
           child: ElevatedButton(
             onPressed: () {},
             child: Text(
@@ -200,7 +199,7 @@ Widget _createAppBar() {
     ),
     actions: [
       Container(
-        margin: EdgeInsets.only(right: 15),
+        margin: EdgeInsets.only(right: 16),
         child: IconButton(
           icon: Icon(Icons.add_circle),
           iconSize: 40,
@@ -213,7 +212,7 @@ Widget _createAppBar() {
 
 Widget _createEstateInfo(BuildContext context, EstateData data) {
   return Container(
-    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+    padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
     height: 430,
     child: Card(
       shape: RoundedRectangleBorder(
