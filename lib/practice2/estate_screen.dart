@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 class EstateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    const int _infoCard = 1;
+    const int _detailCard = 2;
     return Scaffold(
       appBar: _createAppBar(),
-      body: _createBody(),
+      body: _createBody(_infoCard, _detailCard),
       bottomNavigationBar: _createBottomNavigationBar(),
       floatingActionButton: _createFloatingActionButton(),
     );
@@ -61,10 +64,8 @@ Widget _createAppBar() {
   );
 }
 
-Widget _createBody() {
+Widget _createBody(infoCard, detailCard) {
   final _estateList = estateInfo();
-  final int infoCard = 1;
-  final int detailCard = 2;
   return ListView.builder(
     itemCount: _estateList.length,
     itemBuilder: (context, index) {
@@ -234,10 +235,17 @@ Widget _createEstateInfo(BuildContext context, EstateData data) {
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),
               ),
-              child: Image.asset(
-                data.image,
-                width: 500,
-                fit: BoxFit.cover,
+              child: Row(
+                children: [
+                  AspectRatio(
+                    aspectRatio: 1 / 1,
+                    child: Image.asset(data.image),
+                  ),
+                  AspectRatio(
+                    aspectRatio: 1 / 1,
+                    child: Image.asset(data.image2),
+                  ),
+                ],
               ),
             ),
           ),
@@ -282,45 +290,44 @@ Widget _createEstateInfo(BuildContext context, EstateData data) {
                     Text(data.spec),
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 170,
-                      child: ElevatedButton.icon(
-                        onPressed: () {},
-                        icon: Icon(Icons.delete, color: Colors.grey[300]),
-                        label: Text('興味なし'),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          onPrimary: Colors.grey[700],
-                          side: BorderSide(color: Colors.grey[400], width: 2),
-                          elevation: 0,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 30),
-                    Container(
-                      width: 170,
-                      child: ElevatedButton.icon(
-                        onPressed: () {},
-                        icon: Icon(Icons.favorite_border,
-                            color: Colors.grey[300]),
-                        label: Text('お気に入り'),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          onPrimary: Colors.grey[700],
-                          side: BorderSide(color: Colors.grey[400], width: 2),
-                          elevation: 0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                SizedBox(height: 8),
               ],
             ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                width: 170,
+                child: ElevatedButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.delete, color: Colors.grey[300]),
+                  label: Text('興味なし'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    onPrimary: Colors.grey[700],
+                    side: BorderSide(color: Colors.grey[400], width: 2),
+                    elevation: 0,
+                  ),
+                ),
+              ),
+              Container(
+                width: 170,
+                child: ElevatedButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.favorite_border, color: Colors.grey[300]),
+                  label: Text('お気に入り'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    onPrimary: Colors.grey[700],
+                    side: BorderSide(color: Colors.grey[400], width: 2),
+                    elevation: 0,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8),
         ],
       ),
     ),
@@ -342,7 +349,8 @@ List<ToggleShowData> estateInfo() {
     ToggleShowData(
       2,
       estateData: EstateData(
-        'images/スクリーンショット 2021-04-05 午後13.55.32 午後.png',
+        'images/no_image.png',
+        'images/madori.png',
         'Rising place 川崎',
         '2,000万円',
         '京急本線 京急川崎駅 より 徒歩9分',
@@ -353,7 +361,8 @@ List<ToggleShowData> estateInfo() {
     ToggleShowData(
       2,
       estateData: EstateData(
-        'images/スクリーンショット 2021-04-05 午後13.55.32 午後.png',
+        'images/no_image.png',
+        'images/madori.png',
         'Rising place 川崎',
         '2,000万円',
         '京急本線 京急川崎駅 より 徒歩9分',
@@ -364,7 +373,8 @@ List<ToggleShowData> estateInfo() {
     ToggleShowData(
       2,
       estateData: EstateData(
-        'images/スクリーンショット 2021-04-05 午後13.55.32 午後.png',
+        'images/no_image.png',
+        'images/madori.png',
         'Rising place 川崎',
         '2,000万円',
         '京急本線 京急川崎駅 より 徒歩9分',
@@ -395,12 +405,13 @@ class SearchData {
 
 class EstateData {
   final image;
+  final image2;
   final name;
   final price;
   final distance;
   final large;
   final spec;
 
-  EstateData(
-      this.image, this.name, this.price, this.distance, this.large, this.spec);
+  EstateData(this.image, this.image2, this.name, this.price, this.distance,
+      this.large, this.spec);
 }
