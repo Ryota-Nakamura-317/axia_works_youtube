@@ -228,39 +228,34 @@ class EstateScreen extends StatelessWidget {
   }
 
   Widget _createEstateInfo(BuildContext context, EstateData data) {
-    final size = MediaQuery.of(context).size;
-    final halfScreenSize = (size.width - 16) / 2;
     return Container(
       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-      height: 430,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
           children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: AspectRatio(
-                        aspectRatio: 1 / 1,
-                        child: Image.asset(data.image),
-                      ),
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: AspectRatio(
+                      aspectRatio: 1 / 1,
+                      child: Image.asset(data.image),
                     ),
-                    Expanded(
-                      child: AspectRatio(
-                        aspectRatio: 1 / 1,
-                        child: Image.asset(data.image2),
-                      ),
+                  ),
+                  Expanded(
+                    child: AspectRatio(
+                      aspectRatio: 1 / 1,
+                      child: Image.asset(data.image2),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Container(
