@@ -149,25 +149,34 @@ class EstateScreen extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(width: 10),
-                  Text(
-                    searchData.title,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Row(
+                    children: [
+                      SizedBox(width: 10),
+                      Text(
+                        searchData.title,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        '新着${searchData.num}件',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      //SizedBox(width: 150),
+                    ],
                   ),
-                  SizedBox(width: 10),
-                  Text(
-                    '新着${searchData.num}件',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                  SizedBox(width: 150),
-                  Text(
-                    '編集',
-                    style: TextStyle(color: Colors.teal[400]),
-                  ),
-                  Icon(
-                    Icons.edit,
-                    color: Colors.teal[400],
+                  Row(
+                    children: [
+                      Text(
+                        '編集',
+                        style: TextStyle(color: Colors.teal[400]),
+                      ),
+                      Icon(
+                        Icons.edit,
+                        color: Colors.teal[400],
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -219,6 +228,8 @@ class EstateScreen extends StatelessWidget {
   }
 
   Widget _createEstateInfo(BuildContext context, EstateData data) {
+    final size = MediaQuery.of(context).size;
+    final halfScreenSize = (size.width - 16) / 2;
     return Container(
       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
       height: 430,
@@ -236,13 +247,17 @@ class EstateScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    AspectRatio(
-                      aspectRatio: 1 / 1,
-                      child: Image.asset(data.image),
+                    Expanded(
+                      child: AspectRatio(
+                        aspectRatio: 1 / 1,
+                        child: Image.asset(data.image),
+                      ),
                     ),
-                    AspectRatio(
-                      aspectRatio: 1 / 1,
-                      child: Image.asset(data.image2),
+                    Expanded(
+                      child: AspectRatio(
+                        aspectRatio: 1 / 1,
+                        child: Image.asset(data.image2),
+                      ),
                     ),
                   ],
                 ),
