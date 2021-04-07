@@ -91,7 +91,7 @@ class _AsyncScreenState extends State<AsyncScreen> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.number,
-                  initialValue: age.toString(),
+                  initialValue: age != null ? age.toString() : '',
                   decoration: InputDecoration(
                     labelText: '年齢',
                     hintText: '数字で入力',
