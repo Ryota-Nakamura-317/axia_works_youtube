@@ -1,127 +1,144 @@
 import 'package:flutter/material.dart';
 
 class YouTubeScreen extends StatelessWidget {
+  final _movieList = contentsList();
   @override
   Widget build(BuildContext context) {
-    final movieList = contentsList();
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        title: Row(
-          children: [
-            Container(
-              height: 100,
-              width: 100,
-              child: Image.asset('images/yt_logo_rgb_light.png'),
-            ),
-          ],
-        ),
-        actions: [
-          Icon(Icons.cast),
-          SizedBox(width: 16),
-          Icon(Icons.notifications_none),
-          SizedBox(width: 16),
-          Icon(Icons.search_rounded),
-          SizedBox(width: 16),
-          IconButton(
-            icon: CircleAvatar(
-              backgroundColor: Colors.lightGreen,
-            ),
-            onPressed: () {},
-          ),
-        ],
-        backgroundColor: Colors.white,
-      ),
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          Column(
-            children: [
-              createCategoryButton(
-                Icons.local_fire_department_sharp,
-                Icons.music_note,
-                '急上昇',
-                '音楽',
-              ),
-              createCategoryButton(
-                Icons.videogame_asset,
-                Icons.text_snippet,
-                'ゲーム',
-                'ニュース',
-              ),
-              createCategoryButton(
-                Icons.lightbulb,
-                Icons.wifi_tethering,
-                '学び',
-                'ライブ',
-              ),
-              createCategoryButton(
-                Icons.sports_baseball,
-                Icons.music_note,
-                'スポーツ',
-                '',
-              ),
-            ],
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            child: Text(
-              '急上昇動画',
-              style: TextStyle(fontSize: 20),
-            ),
-          ),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: movieList.length,
-            itemBuilder: (context, index) {
-              return createMovieContents(
-                context,
-                movieList[index],
-              );
-            },
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        showUnselectedLabels: true,
-        unselectedItemColor: Colors.grey[700],
-        selectedItemColor: Colors.red,
-        unselectedFontSize: 10,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'ホーム',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: '検索',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle_outline),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.video_library_sharp),
-            label: 'チャンネル',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.video_library_sharp),
-            label: 'ライブラリ',
-          ),
-        ],
-      ),
+      appBar: _createAppBar(),
+      body: _createBody(context),
+      bottomNavigationBar: _createBottomNavigationBar(),
     );
   }
 
-  Widget createCategoryButton(
-      IconData icon, IconData icon2, String label, String label2) {
+  Widget _createAppBar() {
+    return AppBar(
+      iconTheme: IconThemeData(color: Colors.black),
+      title: Row(
+        children: [
+          Container(
+            height: 100,
+            width: 100,
+            child: Image.asset('images/yt_logo_rgb_light.png'),
+          ),
+        ],
+      ),
+      actions: [
+        Icon(Icons.cast),
+        SizedBox(width: 16),
+        Icon(Icons.notifications_none),
+        SizedBox(width: 16),
+        Icon(Icons.search_rounded),
+        SizedBox(width: 16),
+        IconButton(
+          icon: CircleAvatar(
+            backgroundColor: Colors.lightGreen,
+          ),
+          onPressed: () {},
+        ),
+      ],
+      backgroundColor: Colors.white,
+    );
+  }
+
+  Widget _createBody(context) {
+    final size = MediaQuery.of(context).size;
+    final halfButtonWidth = (size.width - 16) / 2;
+    return ListView(
+      children: [
+        Column(
+          children: [
+            createCategoryButton(
+              halfButtonWidth,
+              Icons.local_fire_department_sharp,
+              Icons.music_note,
+              '急上昇',
+              '音楽',
+            ),
+            createCategoryButton(
+              halfButtonWidth,
+              Icons.videogame_asset,
+              Icons.text_snippet,
+              'ゲーム',
+              'ニュース',
+            ),
+            createCategoryButton(
+              halfButtonWidth,
+              Icons.lightbulb,
+              Icons.wifi_tethering,
+              '学び',
+              'ライブ',
+            ),
+            createCategoryButton(
+              halfButtonWidth,
+              Icons.sports_baseball,
+              Icons.music_note,
+              'スポーツ',
+              '',
+            ),
+          ],
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          child: Text(
+            '急上昇動画',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: _movieList.length,
+          itemBuilder: (context, index) {
+            return createMovieContents(
+              context,
+              _movieList[index],
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _createBottomNavigationBar() {
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      showUnselectedLabels: true,
+      unselectedItemColor: Colors.grey[700],
+      selectedItemColor: Colors.red,
+      unselectedFontSize: 10,
+      items: [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'ホーム',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.search),
+          label: '検索',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.add_circle_outline),
+          label: '',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.video_library_sharp),
+          label: 'チャンネル',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.video_library_sharp),
+          label: 'ライブラリ',
+        ),
+      ],
+    );
+  }
+
+  Widget createCategoryButton(halfButtonWidth, IconData icon, IconData icon2,
+      String label, String label2) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Container(
           padding: EdgeInsets.fromLTRB(0, 5, 5, 5),
-          width: 200,
+          width: halfButtonWidth,
           height: 55,
           child: ElevatedButton(
             onPressed: () {},
@@ -139,7 +156,7 @@ class YouTubeScreen extends StatelessWidget {
         ),
         Container(
           padding: EdgeInsets.fromLTRB(0, 5, 5, 5),
-          width: 200,
+          width: halfButtonWidth,
           height: 55,
           child: ElevatedButton(
             onPressed: () {},
