@@ -163,7 +163,6 @@ class EstateScreen extends StatelessWidget {
                         '新着${searchData.num}件',
                         style: TextStyle(color: Colors.red),
                       ),
-                      //SizedBox(width: 150),
                     ],
                   ),
                   Row(
