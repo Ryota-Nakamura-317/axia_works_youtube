@@ -1,5 +1,6 @@
 import 'package:axia_works_youtube/practice1/youtube_screen.dart';
 import 'package:axia_works_youtube/practice2/estate_screen.dart';
+import 'package:axia_works_youtube/practice3/mercari_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -34,8 +35,15 @@ class HomeScreen extends StatelessWidget {
               child: Text('estate'),
             ),
             ElevatedButton(
-              onPressed: () {},
-              child: Text('Next...'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MercariScreen(),
+                  ),
+                );
+              },
+              child: Text('Mercari'),
             ),
           ],
         ),
