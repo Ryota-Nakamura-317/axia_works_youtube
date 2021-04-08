@@ -45,6 +45,17 @@ class HomeScreen extends StatelessWidget {
               },
               child: Text('Mercari'),
             ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MercariScreen(),
+                  ),
+                );
+              },
+              child: Text('Qiita'),
+            ),
           ],
         ),
       ),
