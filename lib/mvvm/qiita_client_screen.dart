@@ -31,7 +31,7 @@ class QiitaClientScreen extends ConsumerWidget {
               child: Center(
                 child: state.isReadyData
                     ? _createListView(context, state.qiitaItems)
-                    : _createSerchButtons(context, state),
+                    : _createSearchButtons(context, state),
               ),
             ),
             state.isLoading
@@ -72,7 +72,7 @@ class QiitaClientScreen extends ConsumerWidget {
     );
   }
 
-  Widget _createSerchButtons(BuildContext context, QiitaClientState state) {
+  Widget _createSearchButtons(BuildContext context, QiitaClientState state) {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
