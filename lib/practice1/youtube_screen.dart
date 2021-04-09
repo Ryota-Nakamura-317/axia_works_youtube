@@ -1,5 +1,4 @@
 import 'package:axia_works_youtube/practice1/model/youtube_item.dart';
-import 'package:axia_works_youtube/practice1/state/youtube_state.dart';
 import 'package:axia_works_youtube/practice1/youtube_state_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +13,7 @@ class YouTubeScreen extends ConsumerWidget {
     final state = watch(youtubeStateProvider.state);
     return Scaffold(
       appBar: _createAppBar(),
-      body: _createBody(context, state),
+      body: _createBody(context, state.youtubeItem),
       bottomNavigationBar: _createBottomNavigationBar(),
     );
   }
@@ -49,7 +48,7 @@ class YouTubeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _createBody(context, YouTubeState state) {
+  Widget _createBody(context, List<YouTubeItem> youtubeItems) {
     final size = MediaQuery.of(context).size;
     final halfButtonWidth = (size.width - 16) / 2;
     return ListView(
@@ -95,9 +94,9 @@ class YouTubeScreen extends ConsumerWidget {
         ),
         ListView.builder(
           shrinkWrap: true,
-          itemCount: state.youtubeItem.length,
+          itemCount: youtubeItems.length,
           itemBuilder: (context, index) {
-            final data = state.youtubeItem[index];
+            final data = youtubeItems[index];
             return createMovieContents(
               context,
               data,
