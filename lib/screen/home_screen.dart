@@ -1,4 +1,5 @@
 import 'package:axia_works_youtube/async/async_screen.dart';
+import 'package:axia_works_youtube/mvvm/qiita_client_screen.dart';
 import 'package:axia_works_youtube/practice1/youtube_screen.dart';
 import 'package:axia_works_youtube/practice2/estate_screen.dart';
 import 'package:axia_works_youtube/practice3/mercari_screen.dart';
@@ -56,6 +57,17 @@ class HomeScreen extends StatelessWidget {
                 );
               },
               child: Text('async'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => QiitaClientScreen(),
+                  ),
+                );
+              },
+              child: Text('Qiita'),
             ),
           ],
         ),
