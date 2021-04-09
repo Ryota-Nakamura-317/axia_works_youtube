@@ -3,7 +3,9 @@ import 'package:axia_works_youtube/practice1/state/youtube_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class YouTubeStateNotifier extends StateNotifier<YouTubeState> {
-  YouTubeStateNotifier() : super(YouTubeState());
+  YouTubeStateNotifier() : super(YouTubeState()) {
+    fetchYouTubeItems();
+  }
 
   YouTubeRepository _repository = YouTubeRepository();
 
@@ -14,7 +16,7 @@ class YouTubeStateNotifier extends StateNotifier<YouTubeState> {
 
     final youtubeItems = await _repository.fetchYouTubeItems();
 
-    if (youtubeItems.length != 0) {
+    if (youtubeItems.isNotEmpty) {
       state = state.copyWith(
         isLoading: false,
         isReadyData: true,

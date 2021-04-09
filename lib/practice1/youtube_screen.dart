@@ -13,10 +13,30 @@ class YouTubeScreen extends ConsumerWidget {
     final state = watch(youtubeStateProvider.state);
     return Scaffold(
       appBar: _createAppBar(),
-      body: _createBody(context, state.youtubeItem),
+      body: Stack(
+        children: [
+          Container(
+            child: Center(
+              child: state.isReadyData
+                  ? _createBody(context, state.youtubeItem)
+                  : Container(),
+            ),
+          ),
+          state.isLoading
+              ? Container(
+                  color: Color(0x88000000),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : Container(),
+        ],
+      ),
       bottomNavigationBar: _createBottomNavigationBar(),
     );
   }
+
+  //_createBody(context, state.youtubeItem),
 
   Widget _createAppBar() {
     return AppBar(
@@ -51,6 +71,7 @@ class YouTubeScreen extends ConsumerWidget {
   Widget _createBody(context, List<YouTubeItem> youtubeItems) {
     final size = MediaQuery.of(context).size;
     final halfButtonWidth = (size.width - 16) / 2;
+
     return ListView(
       children: [
         Column(
