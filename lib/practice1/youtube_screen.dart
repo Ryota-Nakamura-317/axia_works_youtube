@@ -7,7 +7,6 @@ final youtubeStateProvider =
     StateNotifierProvider((ref) => YouTubeStateNotifier());
 
 class YouTubeScreen extends ConsumerWidget {
-  //final _movieList = contentsList();
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final state = watch(youtubeStateProvider.state);
@@ -35,8 +34,6 @@ class YouTubeScreen extends ConsumerWidget {
       bottomNavigationBar: _createBottomNavigationBar(),
     );
   }
-
-  //_createBody(context, state.youtubeItem),
 
   Widget _createAppBar() {
     return AppBar(
