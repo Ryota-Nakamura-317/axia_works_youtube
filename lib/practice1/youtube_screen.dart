@@ -1,12 +1,20 @@
+import 'package:axia_works_youtube/practice1/model/youtube_item.dart';
+import 'package:axia_works_youtube/practice1/state/youtube_state.dart';
+import 'package:axia_works_youtube/practice1/youtube_state_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class YouTubeScreen extends StatelessWidget {
-  final _movieList = contentsList();
+final youtubeStateProvider =
+    StateNotifierProvider((ref) => YouTubeStateNotifier());
+
+class YouTubeScreen extends ConsumerWidget {
+  //final _movieList = contentsList();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final state = watch(youtubeStateProvider.state);
     return Scaffold(
       appBar: _createAppBar(),
-      body: _createBody(context),
+      body: _createBody(context, state),
       bottomNavigationBar: _createBottomNavigationBar(),
     );
   }
@@ -41,7 +49,7 @@ class YouTubeScreen extends StatelessWidget {
     );
   }
 
-  Widget _createBody(context) {
+  Widget _createBody(context, YouTubeState state) {
     final size = MediaQuery.of(context).size;
     final halfButtonWidth = (size.width - 16) / 2;
     return ListView(
@@ -87,11 +95,12 @@ class YouTubeScreen extends StatelessWidget {
         ),
         ListView.builder(
           shrinkWrap: true,
-          itemCount: _movieList.length,
+          itemCount: state.youtubeItem.length,
           itemBuilder: (context, index) {
+            final data = state.youtubeItem[index];
             return createMovieContents(
               context,
-              _movieList[index],
+              data,
             );
           },
         ),
@@ -176,7 +185,7 @@ class YouTubeScreen extends StatelessWidget {
     );
   }
 
-  Widget createMovieContents(BuildContext context, MovieData data) {
+  Widget createMovieContents(BuildContext context, YouTubeItem data) {
     return Column(
       children: [
         Image.asset(data.image),
@@ -202,39 +211,39 @@ class YouTubeScreen extends StatelessWidget {
   }
 }
 
-List<MovieData> contentsList() {
-  return [
-    MovieData(
-      'images/hq720_live.png',
-      'images/unnamed.jpg',
-      'lofi hip hop radio - beats to relax/study to',
-      'Lofi Girl 2.3万人が視聴中',
-    ),
-    MovieData(
-      'images/hq720_live.png',
-      'images/unnamed.jpg',
-      'lofi hip hop radio - beats to relax/study to',
-      'Lofi Girl 2.3万人が視聴中',
-    ),
-    MovieData(
-      'images/hq720_live.png',
-      'images/unnamed.jpg',
-      'lofi hip hop radio - beats to relax/study to',
-      'Lofi Girl 2.3万人が視聴中',
-    ),
-  ];
-}
-
-class MovieData {
-  final image;
-  final logo;
-  final title;
-  final subtitle;
-
-  MovieData(
-    this.image,
-    this.logo,
-    this.title,
-    this.subtitle,
-  );
-}
+// List<MovieData> contentsList() {
+//   return [
+//     MovieData(
+//       'images/hq720_live.png',
+//       'images/unnamed.jpg',
+//       'lofi hip hop radio - beats to relax/study to',
+//       'Lofi Girl 2.3万人が視聴中',
+//     ),
+//     MovieData(
+//       'images/hq720_live.png',
+//       'images/unnamed.jpg',
+//       'lofi hip hop radio - beats to relax/study to',
+//       'Lofi Girl 2.3万人が視聴中',
+//     ),
+//     MovieData(
+//       'images/hq720_live.png',
+//       'images/unnamed.jpg',
+//       'lofi hip hop radio - beats to relax/study to',
+//       'Lofi Girl 2.3万人が視聴中',
+//     ),
+//   ];
+// }
+//
+// class MovieData {
+//   final image;
+//   final logo;
+//   final title;
+//   final subtitle;
+//
+//   MovieData(
+//     this.image,
+//     this.logo,
+//     this.title,
+//     this.subtitle,
+//   );
+// }
