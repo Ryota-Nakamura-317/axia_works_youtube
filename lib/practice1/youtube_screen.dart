@@ -115,7 +115,7 @@ class YouTubeScreen extends ConsumerWidget {
           itemCount: youtubeItems.length,
           itemBuilder: (context, index) {
             final data = youtubeItems[index];
-            return createMovieContents(
+            return _createMovieContents(
               context,
               data,
             );
@@ -202,7 +202,7 @@ class YouTubeScreen extends ConsumerWidget {
     );
   }
 
-  Widget createMovieContents(BuildContext context, YouTubeItem data) {
+  Widget _createMovieContents(BuildContext context, YouTubeItem data) {
     return Column(
       children: [
         Image.asset(data.image),
@@ -227,40 +227,3 @@ class YouTubeScreen extends ConsumerWidget {
     );
   }
 }
-
-// List<MovieData> contentsList() {
-//   return [
-//     MovieData(
-//       'images/hq720_live.png',
-//       'images/unnamed.jpg',
-//       'lofi hip hop radio - beats to relax/study to',
-//       'Lofi Girl 2.3万人が視聴中',
-//     ),
-//     MovieData(
-//       'images/hq720_live.png',
-//       'images/unnamed.jpg',
-//       'lofi hip hop radio - beats to relax/study to',
-//       'Lofi Girl 2.3万人が視聴中',
-//     ),
-//     MovieData(
-//       'images/hq720_live.png',
-//       'images/unnamed.jpg',
-//       'lofi hip hop radio - beats to relax/study to',
-//       'Lofi Girl 2.3万人が視聴中',
-//     ),
-//   ];
-// }
-//
-// class MovieData {
-//   final image;
-//   final logo;
-//   final title;
-//   final subtitle;
-//
-//   MovieData(
-//     this.image,
-//     this.logo,
-//     this.title,
-//     this.subtitle,
-//   );
-// }
