@@ -1,5 +1,5 @@
 import 'package:axia_works_youtube/async/async_state_notifier.dart';
-import 'package:axia_works_youtube/async/model/async_item.dart';
+import 'package:axia_works_youtube/async/state/async_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,43 +8,45 @@ final asyncStateNotifierProvider =
 
 class AsyncScreen extends ConsumerWidget {
   final _formKey = GlobalKey<FormState>();
-  String name;
-  int age;
-  String birthday;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final state = watch(asyncStateNotifierProvider.state);
     return Scaffold(
-      body: _createBody(state.asyncItem),
-      floatingActionButton:
-          _createFloatingActionButton(context, state.asyncItem),
+      body: _createBody(state),
+      floatingActionButton: _createFloatingActionButton(context, state),
     );
   }
 
-  Widget _createBody(AsyncItem item) {
+  //_createBody(state)
+  Widget _createBody(AsyncState state) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(item.name != null ? '名前：${item.name}' : '名前：未設定'),
-          Text(item.age != null ? '年齢：${item.age}' : '年齢：未設定'),
-          Text(item.birthday != null ? '誕生日：${item.birthday}' : '誕生日：未設定'),
+          Text(state.isReadyData ? '名前：${state.asyncItem.name}' : '名前：未設定'),
+          Text(state.isReadyData ? '年齢：${state.asyncItem.age}' : '年齢：未設定'),
+          Text(state.isReadyData
+              ? '誕生日：${state.asyncItem.birthday}'
+              : '誕生日：未設定'),
         ],
       ),
     );
   }
 
-  Widget _createFloatingActionButton(BuildContext context, AsyncItem item) {
+  Widget _createFloatingActionButton(BuildContext context, AsyncState state) {
     return FloatingActionButton(
       child: Icon(Icons.edit),
       onPressed: () {
-        _buildShowDialog(context, item);
+        _buildShowDialog(context, state);
       },
     );
   }
 
-  Future _buildShowDialog(BuildContext context, AsyncItem item) {
+  Future _buildShowDialog(BuildContext context, AsyncState state) {
+    String name;
+    int age;
+    String birthday;
     return showDialog(
       context: context,
       builder: (_) {
@@ -55,7 +57,7 @@ class AsyncScreen extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  initialValue: item.name,
+                  initialValue: state.asyncItem.name,
                   decoration: InputDecoration(
                     labelText: '名前',
                     hintText: '田中　太郎',
@@ -72,7 +74,9 @@ class AsyncScreen extends ConsumerWidget {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.number,
-                  initialValue: item.age != null ? item.age.toString() : '',
+                  initialValue: state.asyncItem.age != null
+                      ? state.asyncItem.age.toString()
+                      : '',
                   decoration: InputDecoration(
                     labelText: '年齢',
                     hintText: '数字で入力',
@@ -88,7 +92,7 @@ class AsyncScreen extends ConsumerWidget {
                   },
                 ),
                 TextFormField(
-                  initialValue: item.birthday,
+                  initialValue: state.asyncItem.birthday,
                   decoration: InputDecoration(
                     labelText: '誕生日',
                     hintText: '1994/1/1',
@@ -114,12 +118,12 @@ class AsyncScreen extends ConsumerWidget {
               child: Text('キャンセル'),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState.validate()) {
-                  context
+                  this._formKey.currentState.save();
+                  await context
                       .read(asyncStateNotifierProvider)
                       .writeUserData(name, age, birthday);
-                  this._formKey.currentState.save();
                   Navigator.of(context).pop();
                 }
               },
