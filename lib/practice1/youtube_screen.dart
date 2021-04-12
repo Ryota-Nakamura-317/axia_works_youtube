@@ -1,12 +1,36 @@
+import 'package:axia_works_youtube/practice1/model/youtube_item.dart';
+import 'package:axia_works_youtube/practice1/youtube_state_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class YouTubeScreen extends StatelessWidget {
-  final _movieList = contentsList();
+final youtubeStateProvider =
+    StateNotifierProvider((ref) => YouTubeStateNotifier());
+
+class YouTubeScreen extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final state = watch(youtubeStateProvider.state);
     return Scaffold(
       appBar: _createAppBar(),
-      body: _createBody(context),
+      body: Stack(
+        children: [
+          Container(
+            child: Center(
+              child: state.isReadyData
+                  ? _createBody(context, state.youtubeItem)
+                  : Container(),
+            ),
+          ),
+          state.isLoading
+              ? Container(
+                  color: Color(0x88000000),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : Container(),
+        ],
+      ),
       bottomNavigationBar: _createBottomNavigationBar(),
     );
   }
@@ -41,9 +65,10 @@ class YouTubeScreen extends StatelessWidget {
     );
   }
 
-  Widget _createBody(context) {
+  Widget _createBody(context, List<YouTubeItem> youtubeItems) {
     final size = MediaQuery.of(context).size;
     final halfButtonWidth = (size.width - 16) / 2;
+
     return ListView(
       children: [
         Column(
@@ -87,11 +112,12 @@ class YouTubeScreen extends StatelessWidget {
         ),
         ListView.builder(
           shrinkWrap: true,
-          itemCount: _movieList.length,
+          itemCount: youtubeItems.length,
           itemBuilder: (context, index) {
-            return createMovieContents(
+            final data = youtubeItems[index];
+            return _createMovieContents(
               context,
-              _movieList[index],
+              data,
             );
           },
         ),
@@ -176,7 +202,7 @@ class YouTubeScreen extends StatelessWidget {
     );
   }
 
-  Widget createMovieContents(BuildContext context, MovieData data) {
+  Widget _createMovieContents(BuildContext context, YouTubeItem data) {
     return Column(
       children: [
         Image.asset(data.image),
@@ -200,41 +226,4 @@ class YouTubeScreen extends StatelessWidget {
       ],
     );
   }
-}
-
-List<MovieData> contentsList() {
-  return [
-    MovieData(
-      'images/hq720_live.png',
-      'images/unnamed.jpg',
-      'lofi hip hop radio - beats to relax/study to',
-      'Lofi Girl 2.3万人が視聴中',
-    ),
-    MovieData(
-      'images/hq720_live.png',
-      'images/unnamed.jpg',
-      'lofi hip hop radio - beats to relax/study to',
-      'Lofi Girl 2.3万人が視聴中',
-    ),
-    MovieData(
-      'images/hq720_live.png',
-      'images/unnamed.jpg',
-      'lofi hip hop radio - beats to relax/study to',
-      'Lofi Girl 2.3万人が視聴中',
-    ),
-  ];
-}
-
-class MovieData {
-  final image;
-  final logo;
-  final title;
-  final subtitle;
-
-  MovieData(
-    this.image,
-    this.logo,
-    this.title,
-    this.subtitle,
-  );
 }
