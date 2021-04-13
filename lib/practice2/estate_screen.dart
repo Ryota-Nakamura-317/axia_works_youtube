@@ -1,15 +1,42 @@
+import 'package:axia_works_youtube/practice2/estate_state_notifier.dart';
+import 'package:axia_works_youtube/practice2/model/estate_data.dart';
+import 'package:axia_works_youtube/practice2/model/estate_item.dart';
+import 'package:axia_works_youtube/practice2/model/search_data.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class EstateScreen extends StatelessWidget {
+final estateStateProvider =
+    StateNotifierProvider((ref) => EstateStateNotifier());
+
+class EstateScreen extends ConsumerWidget {
   static const int _infoCard = 1;
   static const int _detailCard = 2;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final state = watch(estateStateProvider.state);
     return Scaffold(
       appBar: _createAppBar(),
-      body: _createBody(),
+      body: Stack(
+        children: [
+          Container(
+            child: Center(
+              child: state.isReadyData
+                  ? _createBody(state.estateItem)
+                  : Container(),
+            ),
+          ),
+          state.isLoading
+              ? Container(
+                  color: Color(0x88000000),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : Container(),
+        ],
+      ),
       bottomNavigationBar: _createBottomNavigationBar(),
       floatingActionButton: _createFloatingActionButton(),
     );
@@ -63,16 +90,15 @@ class EstateScreen extends StatelessWidget {
     );
   }
 
-  Widget _createBody() {
-    final _estateList = estateInfo();
+  Widget _createBody(List<EstateItem> estateItems) {
     return ListView.builder(
-      itemCount: _estateList.length,
+      itemCount: estateItems.length,
       itemBuilder: (context, index) {
-        final data = _estateList[index];
+        final data = estateItems[index];
         if (_infoCard == data.cellType) {
-          return _createSearchInfo(context, data.searchData);
+          return _buildSearchInfo(context, data.searchData);
         } else if (_detailCard == data.cellType) {
-          return _createEstateInfo(context, data.estateData);
+          return _buildEstateInfo(context, data.estateData);
         } else {
           return Container();
         }
@@ -136,7 +162,7 @@ class EstateScreen extends StatelessWidget {
     );
   }
 
-  Widget _createSearchInfo(BuildContext context, SearchData searchData) {
+  Widget _buildSearchInfo(BuildContext context, SearchData searchData) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
       height: 160,
@@ -226,7 +252,7 @@ class EstateScreen extends StatelessWidget {
     );
   }
 
-  Widget _createEstateInfo(BuildContext context, EstateData data) {
+  Widget _buildEstateInfo(BuildContext context, EstateData data) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
       child: Card(
@@ -341,86 +367,4 @@ class EstateScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-List<ToggleShowData> estateInfo() {
-  return [
-    ToggleShowData(
-      1,
-      searchData: SearchData(
-        'カウルのおすすめ',
-        3,
-        '東京駅・品川駅・川崎駅・横浜駅・目黒駅',
-        '下限なし〜2,000万円',
-        '1R〜4LDK / 10㎡以上 / 徒歩20分',
-      ),
-    ),
-    ToggleShowData(
-      2,
-      estateData: EstateData(
-        'images/no_image.png',
-        'images/madori.png',
-        'Rising place 川崎',
-        '2,000万円',
-        '京急本線 京急川崎駅 より 徒歩9分',
-        '1K / 21.24㎡ 南西向き',
-        '2階/15階建 築5年',
-      ),
-    ),
-    ToggleShowData(
-      2,
-      estateData: EstateData(
-        'images/no_image.png',
-        'images/madori.png',
-        'Rising place 川崎',
-        '2,000万円',
-        '京急本線 京急川崎駅 より 徒歩9分',
-        '1K / 21.24㎡ 南西向き',
-        '2階/15階建 築5年',
-      ),
-    ),
-    ToggleShowData(
-      2,
-      estateData: EstateData(
-        'images/no_image.png',
-        'images/madori.png',
-        'Rising place 川崎',
-        '2,000万円',
-        '京急本線 京急川崎駅 より 徒歩9分',
-        '1K / 21.24㎡ 南西向き',
-        '2階/15階建 築5年',
-      ),
-    ),
-  ];
-}
-
-class ToggleShowData {
-  final int cellType;
-  final EstateData estateData;
-  final SearchData searchData;
-
-  ToggleShowData(this.cellType, {this.estateData, this.searchData});
-}
-
-class SearchData {
-  final String title;
-  final int num;
-  final String station;
-  final String price;
-  final String details;
-
-  SearchData(this.title, this.num, this.station, this.price, this.details);
-}
-
-class EstateData {
-  final image;
-  final image2;
-  final name;
-  final price;
-  final distance;
-  final large;
-  final spec;
-
-  EstateData(this.image, this.image2, this.name, this.price, this.distance,
-      this.large, this.spec);
 }
