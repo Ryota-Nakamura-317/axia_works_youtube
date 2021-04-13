@@ -20,6 +20,10 @@ dependencies:
   flutter_riverpod: ^0.12.1
   flutter_state_notifier: ^0.6.1
   shared_preferences: ^0.5.12+4
+  moor: ^3.4.0
+  sqlite3_flutter_libs: ^0.4.0
+  path_provider: ^1.6.28
+  path: ^1.7.0
 
 dev_dependencies:
   flutter_test:
@@ -28,6 +32,7 @@ dev_dependencies:
   freezed: ^0.11.2
   retrofit_generator: ^1.4.1
   json_serializable: ^3.3.0
+  moor_generator: ^3.3.1
 
 flutter:
   uses-material-design: true
