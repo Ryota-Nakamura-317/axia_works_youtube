@@ -13,7 +13,6 @@ class TodoItem extends Table {
   TextColumn get sentence => text()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get limitDate => dateTime()();
-
 }
 
 LazyDatabase _openConnection() {
@@ -31,8 +30,16 @@ class MyDatabase extends _$MyDatabase {
   @override
   int get schemaVersion => 1;
 
-  //全てのデータをとる
-  Future<List<TodoItemData>> get allTodoEntries => select(todoItem).get();
+  //全てのデータ取得
+  Future<List<TodoItemData>> readAllTodoData() => select(todoItem).get();
 
+  //追加
+  Future writeTodo(TodoItemData data) => into(todoItem).insert(data);
 
+  //更新
+  Future updateTodo(TodoItemData data) => update(todoItem).replace(data);
+
+  //削除
+  Future deleteTodo(int id) =>
+      (delete(todoItem)..where((it) => it.id.equals(id))).go();
 }
