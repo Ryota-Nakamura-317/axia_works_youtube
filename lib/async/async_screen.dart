@@ -1,68 +1,51 @@
-import 'package:axia_works_youtube/prefs.dart';
+import 'package:axia_works_youtube/async/async_state_notifier.dart';
+import 'package:axia_works_youtube/async/state/async_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AsyncScreen extends StatefulWidget {
-  @override
-  _AsyncScreenState createState() => _AsyncScreenState();
-}
+final asyncStateNotifierProvider =
+    StateNotifierProvider((ref) => AsyncStateNotifier());
 
-class _AsyncScreenState extends State<AsyncScreen> {
-  String name;
-  int age;
-  String birthday;
-
+class AsyncScreen extends ConsumerWidget {
   final _formKey = GlobalKey<FormState>();
 
   @override
-  void initState() {
-    super.initState();
-    _loadUserData();
-  }
-
-  _loadUserData() async {
-    name = await Prefs.getName();
-    age = await Prefs.getAge();
-    birthday = await Prefs.getBirthday();
-    setState(() {});
-  }
-
-  _saveUserData(String name, int age, String birthday) async {
-    await Prefs.setName(name);
-    await Prefs.setAge(age);
-    await Prefs.setBirthday(birthday);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final state = watch(asyncStateNotifierProvider.state);
     return Scaffold(
-      body: _createBody(),
-      floatingActionButton: _createFloatingActionButton(),
+      body: _createBody(state),
+      floatingActionButton: _createFloatingActionButton(context, state),
     );
   }
 
-  Widget _createBody() {
+  Widget _createBody(AsyncState state) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(name != null ? '名前：$name' : '名前：未設定'),
-          Text(age != null ? '年齢：$age' : '年齢：未設定'),
-          Text(birthday != null ? '誕生日：$birthday' : '誕生日：未設定'),
+          Text(state.isReadyData ? '名前：${state.asyncItem.name}' : '名前：未設定'),
+          Text(state.isReadyData ? '年齢：${state.asyncItem.age}' : '年齢：未設定'),
+          Text(state.isReadyData
+              ? '誕生日：${state.asyncItem.birthday}'
+              : '誕生日：未設定'),
         ],
       ),
     );
   }
 
-  Widget _createFloatingActionButton() {
+  Widget _createFloatingActionButton(BuildContext context, AsyncState state) {
     return FloatingActionButton(
       child: Icon(Icons.edit),
       onPressed: () {
-        _createDialog(context);
+        _showInputFormDialog(context, state);
       },
     );
   }
 
-  Future _createDialog(BuildContext context) {
+  Future _showInputFormDialog(BuildContext context, AsyncState state) {
+    String name;
+    int age;
+    String birthday;
     return showDialog(
       context: context,
       builder: (_) {
@@ -73,7 +56,7 @@ class _AsyncScreenState extends State<AsyncScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  initialValue: name,
+                  initialValue: state.asyncItem.name,
                   decoration: InputDecoration(
                     labelText: '名前',
                     hintText: '田中　太郎',
@@ -90,7 +73,9 @@ class _AsyncScreenState extends State<AsyncScreen> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.number,
-                  initialValue: age != null ? age.toString() : '',
+                  initialValue: state.asyncItem.age != null
+                      ? state.asyncItem.age.toString()
+                      : '',
                   decoration: InputDecoration(
                     labelText: '年齢',
                     hintText: '数字で入力',
@@ -106,7 +91,7 @@ class _AsyncScreenState extends State<AsyncScreen> {
                   },
                 ),
                 TextFormField(
-                  initialValue: birthday,
+                  initialValue: state.asyncItem.birthday,
                   decoration: InputDecoration(
                     labelText: '誕生日',
                     hintText: '1994/1/1',
@@ -132,11 +117,12 @@ class _AsyncScreenState extends State<AsyncScreen> {
               child: Text('キャンセル'),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState.validate()) {
-                  _saveUserData(name, age, birthday);
-                  setState(() {});
                   this._formKey.currentState.save();
+                  await context
+                      .read(asyncStateNotifierProvider)
+                      .writeUserData(name, age, birthday);
                   Navigator.of(context).pop();
                 }
               },
