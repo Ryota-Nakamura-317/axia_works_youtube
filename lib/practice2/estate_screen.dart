@@ -22,9 +22,15 @@ class EstateScreen extends ConsumerWidget {
         children: [
           Container(
             child: Center(
-              child: state.isReadyData
-                  ? _createBody(context, state.estateItem)
-                  : Container(),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  await Future.delayed(Duration(seconds: 1));
+                  await context.read(estateStateProvider).fetchEstateItems();
+                },
+                child: state.isReadyData
+                    ? _createBody(state.estateItem)
+                    : Container(),
+              ),
             ),
           ),
           state.isLoading
@@ -90,25 +96,19 @@ class EstateScreen extends ConsumerWidget {
     );
   }
 
-  Widget _createBody(BuildContext context, List<EstateItem> estateItems) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        await Future.delayed(Duration(seconds: 1));
-        await context.read(estateStateProvider).fetchEstateItems();
+  Widget _createBody(List<EstateItem> estateItems) {
+    return ListView.builder(
+      itemCount: estateItems.length,
+      itemBuilder: (context, index) {
+        final data = estateItems[index];
+        if (_infoCard == data.cellType) {
+          return _buildSearchInfo(context, data.searchData);
+        } else if (_detailCard == data.cellType) {
+          return _buildEstateInfo(context, data.estateData);
+        } else {
+          return Container();
+        }
       },
-      child: ListView.builder(
-        itemCount: estateItems.length,
-        itemBuilder: (context, index) {
-          final data = estateItems[index];
-          if (_infoCard == data.cellType) {
-            return _buildSearchInfo(context, data.searchData);
-          } else if (_detailCard == data.cellType) {
-            return _buildEstateInfo(context, data.estateData);
-          } else {
-            return Container();
-          }
-        },
-      ),
     );
   }
 
