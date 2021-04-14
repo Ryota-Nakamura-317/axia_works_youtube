@@ -9,10 +9,10 @@ part 'db.g.dart';
 
 class TodoItem extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get title => text()();
-  TextColumn get sentence => text()();
-  DateTimeColumn get createdAt => dateTime()();
-  DateTimeColumn get limitDate => dateTime()();
+  TextColumn get title => text().withLength(min: 1, max: 24)();
+  TextColumn get sentence => text().withLength(min: 1, max: 100)();
+  TextColumn get createdAt => text()();
+  TextColumn get limitDate => text()();
 }
 
 LazyDatabase _openConnection() {
@@ -25,6 +25,16 @@ LazyDatabase _openConnection() {
 
 @UseMoor(tables: [TodoItem])
 class MyDatabase extends _$MyDatabase {
+  static MyDatabase _instance;
+
+  static MyDatabase getInstance() {
+    //シングルトン対応
+    if (_instance == null) {
+      _instance = new MyDatabase();
+    }
+    return _instance;
+  }
+
   MyDatabase() : super(_openConnection());
 
   @override
