@@ -18,7 +18,6 @@ class AsyncScreen extends ConsumerWidget {
     );
   }
 
-  //_createBody(state)
   Widget _createBody(AsyncState state) {
     return Center(
       child: Column(
@@ -38,12 +37,12 @@ class AsyncScreen extends ConsumerWidget {
     return FloatingActionButton(
       child: Icon(Icons.edit),
       onPressed: () {
-        _buildShowDialog(context, state);
+        _showInputFormDialog(context, state);
       },
     );
   }
 
-  Future _buildShowDialog(BuildContext context, AsyncState state) {
+  Future _showInputFormDialog(BuildContext context, AsyncState state) {
     String name;
     int age;
     String birthday;

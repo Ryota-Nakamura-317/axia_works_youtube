@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AsyncStateNotifier extends StateNotifier<AsyncState> {
   AsyncStateNotifier() : super(AsyncState()) {
-    loadUserData();
+    readUserData();
   }
 
   writeUserData(String name, int age, String birthday) async {
@@ -15,10 +15,10 @@ class AsyncStateNotifier extends StateNotifier<AsyncState> {
     await Prefs.setName(name);
     await Prefs.setAge(age);
     await Prefs.setBirthday(birthday);
-    loadUserData();
+    readUserData();
   }
 
-  loadUserData() async {
+  readUserData() async {
     state = state.copyWith(
       isLoading: true,
     );
