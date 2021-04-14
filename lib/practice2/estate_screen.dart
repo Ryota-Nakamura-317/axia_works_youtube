@@ -22,9 +22,15 @@ class EstateScreen extends ConsumerWidget {
         children: [
           Container(
             child: Center(
-              child: state.isReadyData
-                  ? _createBody(state.estateItem)
-                  : Container(),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  await Future.delayed(Duration(seconds: 1));
+                  await context.read(estateStateProvider).fetchEstateItems();
+                },
+                child: state.isReadyData
+                    ? _createBody(state.estateItem)
+                    : Container(),
+              ),
             ),
           ),
           state.isLoading
