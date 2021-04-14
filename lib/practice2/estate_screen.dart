@@ -23,15 +23,7 @@ class EstateScreen extends ConsumerWidget {
           Container(
             child: Center(
               child: state.isReadyData
-                  ? RefreshIndicator(
-                      onRefresh: () async {
-                        await Future.delayed(Duration(seconds: 1));
-                        await context
-                            .read(estateStateProvider)
-                            .fetchEstateItems();
-                      },
-                      child: _createBody(state.estateItem),
-                    )
+                  ? _createBody(context, state.estateItem)
                   : Container(),
             ),
           ),
@@ -98,19 +90,25 @@ class EstateScreen extends ConsumerWidget {
     );
   }
 
-  Widget _createBody(List<EstateItem> estateItems) {
-    return ListView.builder(
-      itemCount: estateItems.length,
-      itemBuilder: (context, index) {
-        final data = estateItems[index];
-        if (_infoCard == data.cellType) {
-          return _buildSearchInfo(context, data.searchData);
-        } else if (_detailCard == data.cellType) {
-          return _buildEstateInfo(context, data.estateData);
-        } else {
-          return Container();
-        }
+  Widget _createBody(BuildContext context, List<EstateItem> estateItems) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        await Future.delayed(Duration(seconds: 1));
+        await context.read(estateStateProvider).fetchEstateItems();
       },
+      child: ListView.builder(
+        itemCount: estateItems.length,
+        itemBuilder: (context, index) {
+          final data = estateItems[index];
+          if (_infoCard == data.cellType) {
+            return _buildSearchInfo(context, data.searchData);
+          } else if (_detailCard == data.cellType) {
+            return _buildEstateInfo(context, data.estateData);
+          } else {
+            return Container();
+          }
+        },
+      ),
     );
   }
 
