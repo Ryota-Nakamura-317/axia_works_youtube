@@ -21,8 +21,9 @@ class TodoScreen extends ConsumerWidget {
           children: [
             Container(
               child: Center(
-                child:
-                    state.isReadyData ? _createBody(state.data) : Container(),
+                child: state.isReadyData
+                    ? _createBody(state.todoItems)
+                    : Container(),
               ),
             ),
             state.isLoading
@@ -45,12 +46,12 @@ class TodoScreen extends ConsumerWidget {
       itemCount: itemData.length,
       itemBuilder: (context, index) {
         final data = itemData[index];
-        return _buildTodoList(context, data);
+        return _buildTodoItem(context, data);
       },
     );
   }
 
-  Widget _buildTodoList(BuildContext context, TodoItemData data) {
+  Widget _buildTodoItem(BuildContext context, TodoItemData data) {
     return Slidable(
       actions: [
         IconSlideAction(

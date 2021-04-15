@@ -8,6 +8,6 @@ abstract class TodoState with _$TodoState {
   const factory TodoState({
     @Default(false) bool isLoading,
     @Default(false) bool isReadyData,
-    List<TodoItemData> data,
+    List<TodoItemData> todoItems,
   }) = _TodoState;
 }

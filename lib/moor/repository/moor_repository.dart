@@ -1,14 +1,14 @@
 import 'package:axia_works_youtube/moor/db.dart';
 
-class TodoRepository {
-  TodoRepository() {
+class MoorRepository {
+  MoorRepository() {
     _database = MyDatabase.getInstance();
   }
 
   MyDatabase _database;
 
   //全てのデータ取得
-  Future<List<TodoItemData>> readAllData() async =>
+  Future<List<TodoItemData>> readAllTodoItems() async =>
       await _database.readAllTodoData();
 
   //追加

@@ -1,5 +1,5 @@
 import 'package:axia_works_youtube/moor/db.dart';
-import 'package:axia_works_youtube/moor/repository/todo_repository.dart';
+import 'package:axia_works_youtube/moor/repository/moor_repository.dart';
 import 'package:axia_works_youtube/moor/state/todo_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,7 +8,7 @@ class TodoStateNotifier extends StateNotifier<TodoState> {
     readData();
   }
 
-  TodoRepository _repository = TodoRepository();
+  MoorRepository _repository = MoorRepository();
 
   writeData(TodoItemData data) async {
     state = state.copyWith(isLoading: true);
@@ -25,12 +25,12 @@ class TodoStateNotifier extends StateNotifier<TodoState> {
   readData() async {
     state = state.copyWith(isLoading: true);
 
-    final todoItems = await _repository.readAllData();
+    final todoItems = await _repository.readAllTodoItems();
 
     state = state.copyWith(
       isLoading: false,
       isReadyData: true,
-      data: todoItems,
+      todoItems: todoItems,
     );
   }
 }
