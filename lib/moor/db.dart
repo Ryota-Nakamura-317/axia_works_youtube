@@ -25,14 +25,14 @@ LazyDatabase _openConnection() {
 
 @UseMoor(tables: [TodoItem])
 class MyDatabase extends _$MyDatabase {
-  static MyDatabase _instance;
+  static MyDatabase? _instance;
 
   static MyDatabase getInstance() {
     //シングルトン対応
     if (_instance == null) {
       _instance = new MyDatabase();
     }
-    return _instance;
+    return _instance!;
   }
 
   MyDatabase() : super(_openConnection());
@@ -44,7 +44,7 @@ class MyDatabase extends _$MyDatabase {
   Future<List<TodoItemData>> readAllTodoData() => select(todoItem).get();
 
   //追加
-  Future writeTodo(TodoItemData data) => into(todoItem).insert(data);
+  Future writeTodo(TodoItemCompanion data) => into(todoItem).insert(data);
 
   //更新
   Future updateTodo(TodoItemData data) => update(todoItem).replace(data);

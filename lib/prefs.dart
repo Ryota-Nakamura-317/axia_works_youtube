@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Prefs {
-  static Future<String> getName() async {
+  static Future<String?> getName() async {
     return _getString(PrefKeys.NAME);
   }
 
@@ -9,7 +9,7 @@ class Prefs {
     _setString(PrefKeys.NAME, name);
   }
 
-  static Future<int> getAge() async {
+  static Future<int?> getAge() async {
     return _getInt(PrefKeys.AGE);
   }
 
@@ -17,7 +17,7 @@ class Prefs {
     _setInt(PrefKeys.AGE, age);
   }
 
-  static Future<String> getBirthday() async {
+  static Future<String?> getBirthday() async {
     return _getString(PrefKeys.BIRTHDAY);
   }
 
@@ -26,25 +26,25 @@ class Prefs {
   }
 
   //String読み込み
-  static Future<String> _getString(PrefKeys keys) async {
+  static Future<String?> _getString(PrefKeys keys) async {
     final prefs = await _getPrefs();
     return prefs.getString(keys.toString());
   }
 
   //String書き込み
-  static Future<void> _setString(PrefKeys keys, String value) async {
+  static Future<bool> _setString(PrefKeys keys, String value) async {
     final prefs = await _getPrefs();
     return prefs.setString(keys.toString(), value);
   }
 
   //int読み込み
-  static Future<int> _getInt(PrefKeys keys) async {
+  static Future<int?> _getInt(PrefKeys keys) async {
     final prefs = await _getPrefs();
     return prefs.getInt(keys.toString());
   }
 
   //int書き込み
-  static Future<void> _setInt(PrefKeys keys, int value) async {
+  static Future<bool> _setInt(PrefKeys keys, int value) async {
     final prefs = await _getPrefs();
     return prefs.setInt(keys.toString(), value);
   }

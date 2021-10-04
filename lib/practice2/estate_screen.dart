@@ -15,7 +15,7 @@ class EstateScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(estateStateProvider.state);
+    final state = watch(estateStateProvider);
     return Scaffold(
       appBar: _createAppBar(),
       body: Stack(
@@ -25,7 +25,9 @@ class EstateScreen extends ConsumerWidget {
               child: RefreshIndicator(
                 onRefresh: () async {
                   await Future.delayed(Duration(seconds: 1));
-                  await context.read(estateStateProvider).fetchEstateItems();
+                  await context
+                      .read(estateStateProvider.notifier)
+                      .fetchEstateItems();
                 },
                 child: state.isReadyData
                     ? _createBody(state.estateItem)
@@ -48,7 +50,7 @@ class EstateScreen extends ConsumerWidget {
     );
   }
 
-  Widget _createAppBar() {
+  AppBar _createAppBar() {
     return AppBar(
       backgroundColor: Colors.white,
       iconTheme: IconThemeData(color: Colors.teal[400]),
@@ -102,9 +104,9 @@ class EstateScreen extends ConsumerWidget {
       itemBuilder: (context, index) {
         final data = estateItems[index];
         if (_infoCard == data.cellType) {
-          return _buildSearchInfo(context, data.searchData);
+          return _buildSearchInfo(context, data.searchData!);
         } else if (_detailCard == data.cellType) {
-          return _buildEstateInfo(context, data.estateData);
+          return _buildEstateInfo(context, data.estateData!);
         } else {
           return Container();
         }
@@ -346,7 +348,7 @@ class EstateScreen extends ConsumerWidget {
                     style: ElevatedButton.styleFrom(
                       primary: Colors.white,
                       onPrimary: Colors.grey[700],
-                      side: BorderSide(color: Colors.grey[400], width: 2),
+                      side: BorderSide(color: Colors.grey, width: 2),
                       elevation: 0,
                     ),
                   ),
@@ -360,7 +362,7 @@ class EstateScreen extends ConsumerWidget {
                     style: ElevatedButton.styleFrom(
                       primary: Colors.white,
                       onPrimary: Colors.grey[700],
-                      side: BorderSide(color: Colors.grey[400], width: 2),
+                      side: BorderSide(color: Colors.grey, width: 2),
                       elevation: 0,
                     ),
                   ),

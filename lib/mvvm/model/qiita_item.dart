@@ -5,11 +5,11 @@ part 'qiita_item.freezed.dart';
 part 'qiita_item.g.dart';
 
 @freezed
-abstract class QiitaItem with _$QiitaItem {
+class QiitaItem with _$QiitaItem {
   const factory QiitaItem({
-    @JsonKey(name: "title") String title,
-    @JsonKey(name: "url") String url,
-    @JsonKey(name: "user") QiitaUser user,
+    @Default('') @JsonKey(name: "title") String title,
+    @Default('') @JsonKey(name: "url") String url,
+    @JsonKey(name: "user") QiitaUser? user,
   }) = _QiitaItem;
 
   factory QiitaItem.fromJson(Map<String, dynamic> json) =>

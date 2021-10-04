@@ -4,10 +4,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'youtube_state.freezed.dart';
 
 @freezed
-abstract class YouTubeState with _$YouTubeState {
+class YouTubeState with _$YouTubeState {
   const factory YouTubeState({
     @Default(false) bool isLoading,
     @Default(false) bool isReadyData,
-    List<YouTubeItem> youtubeItem,
+    @Default([]) List<YouTubeItem> youtubeItem,
   }) = _YouTubeState;
 }

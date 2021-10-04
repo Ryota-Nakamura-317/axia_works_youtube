@@ -10,11 +10,11 @@ final qiitaClientStateNotifier =
 class QiitaClientScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(qiitaClientStateNotifier.state);
+    final state = watch(qiitaClientStateNotifier);
     return WillPopScope(
       onWillPop: state.isReadyData
           ? () {
-              context.read(qiitaClientStateNotifier).onBackHome();
+              context.read(qiitaClientStateNotifier.notifier).onBackHome();
               return Future.value(false);
             }
           : null,
@@ -79,19 +79,20 @@ class QiitaClientScreen extends ConsumerWidget {
         children: [
           ElevatedButton(
             onPressed: () => context
-                .read(qiitaClientStateNotifier)
+                .read(qiitaClientStateNotifier.notifier)
                 .fetchQiitaItems("Flutter"),
             child: Text('Flutter'),
           ),
           ElevatedButton(
             onPressed: () => context
-                .read(qiitaClientStateNotifier)
+                .read(qiitaClientStateNotifier.notifier)
                 .fetchQiitaItems("android"),
             child: Text('android'),
           ),
           ElevatedButton(
-            onPressed: () =>
-                context.read(qiitaClientStateNotifier).fetchQiitaItems("ios"),
+            onPressed: () => context
+                .read(qiitaClientStateNotifier.notifier)
+                .fetchQiitaItems("ios"),
             child: Text('ios'),
           ),
         ],

@@ -23,15 +23,19 @@ class AsyncStateNotifier extends StateNotifier<AsyncState> {
       isLoading: true,
     );
 
+    final name = await Prefs.getName();
+    final age = await Prefs.getAge();
+    final birthday = await Prefs.getBirthday();
+
     final asyncItems = AsyncItem(
-      name: await Prefs.getName(),
-      age: await Prefs.getAge(),
-      birthday: await Prefs.getBirthday(),
+      name: name ?? '',
+      age: age ?? 0,
+      birthday: birthday ?? '',
     );
 
     state = state.copyWith(
       isLoading: false,
-      isReadyData: asyncItems.name != null,
+      isReadyData: asyncItems.name.isNotEmpty,
       asyncItem: asyncItems,
     );
   }

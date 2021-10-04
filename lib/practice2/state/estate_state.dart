@@ -4,10 +4,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'estate_state.freezed.dart';
 
 @freezed
-abstract class EstateState with _$EstateState {
+class EstateState with _$EstateState {
   const factory EstateState({
     @Default(false) bool isLoading,
     @Default(false) bool isReadyData,
-    List<EstateItem> estateItem,
+    @Default([]) List<EstateItem> estateItem,
   }) = _EstateState;
 }

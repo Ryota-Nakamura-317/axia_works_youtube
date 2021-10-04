@@ -4,10 +4,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'async_state.freezed.dart';
 
 @freezed
-abstract class AsyncState with _$AsyncState {
+class AsyncState with _$AsyncState {
   const factory AsyncState({
     @Default(false) bool isLoading,
     @Default(false) bool isReadyData,
-    AsyncItem asyncItem,
+    AsyncItem? asyncItem,
   }) = _AsyncState;
 }

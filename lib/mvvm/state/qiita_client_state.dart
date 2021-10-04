@@ -4,11 +4,11 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'qiita_client_state.freezed.dart';
 
 @freezed
-abstract class QiitaClientState with _$QiitaClientState {
+class QiitaClientState with _$QiitaClientState {
   const factory QiitaClientState({
     @Default(false) bool isLoading,
     @Default(false) bool isReadyData,
-    List<QiitaItem> qiitaItems,
-    String currentTag,
+    @Default([]) List<QiitaItem> qiitaItems,
+    @Default('') String currentTag,
   }) = _QiitaClientState;
 }

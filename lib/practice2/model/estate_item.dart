@@ -6,11 +6,11 @@ part 'estate_item.freezed.dart';
 part 'estate_item.g.dart';
 
 @freezed
-abstract class EstateItem with _$EstateItem {
+class EstateItem with _$EstateItem {
   const factory EstateItem({
-    @JsonKey(name: "cellType") int cellType,
-    @JsonKey(name: "estateData") EstateData estateData,
-    @JsonKey(name: "searchData") SearchData searchData,
+    @Default(0) @JsonKey(name: "cellType") int cellType,
+    @JsonKey(name: "estateData") EstateData? estateData,
+    @JsonKey(name: "searchData") SearchData? searchData,
   }) = _EstateItem;
 
   factory EstateItem.fromJson(Map<String, dynamic> json) =>

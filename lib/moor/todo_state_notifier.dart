@@ -10,7 +10,7 @@ class TodoStateNotifier extends StateNotifier<TodoState> {
 
   MoorRepository _repository = MoorRepository();
 
-  writeData(TodoItemData data) async {
+  writeData(TodoItemCompanion data) async {
     state = state.copyWith(isLoading: true);
     await _repository.writeTodoData(data);
     readData();

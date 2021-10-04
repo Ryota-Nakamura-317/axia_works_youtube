@@ -4,6 +4,8 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
+import 'package:moor/moor.dart' as moor;
 
 final toDoStateNotifierProvider =
     StateNotifierProvider((ref) => TodoStateNotifier());
@@ -13,8 +15,7 @@ class TodoScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(toDoStateNotifierProvider.state);
-    TodoItemData itemData;
+    final state = watch(toDoStateNotifierProvider);
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -37,7 +38,7 @@ class TodoScreen extends ConsumerWidget {
           ],
         ),
       ),
-      floatingActionButton: _createFloatingActionButton(context, itemData),
+      floatingActionButton: _createFloatingActionButton(context),
     );
   }
 
@@ -59,7 +60,7 @@ class TodoScreen extends ConsumerWidget {
           icon: Icons.delete,
           color: Colors.red,
           onTap: () {
-            context.read(toDoStateNotifierProvider).deleteData(data);
+            context.read(toDoStateNotifierProvider.notifier).deleteData(data);
           },
         )
       ],
@@ -103,17 +104,16 @@ class TodoScreen extends ConsumerWidget {
     );
   }
 
-  Widget _createFloatingActionButton(
-      BuildContext context, TodoItemData itemData) {
+  Widget _createFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
       child: Icon(Icons.edit),
       onPressed: () {
-        _showInputDialog(context, itemData);
+        _showInputDialog(context);
       },
     );
   }
 
-  Future _showInputDialog(BuildContext context, TodoItemData itemData) {
+  Future _showInputDialog(BuildContext context) {
     final today = DateTime.now();
     TextEditingController _titleController = TextEditingController();
     TextEditingController _sentenceController = TextEditingController();
@@ -136,7 +136,7 @@ class TodoScreen extends ConsumerWidget {
                   ),
                   textInputAction: TextInputAction.next,
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value == null) {
                       return '未入力です';
                     }
                     return null;
@@ -150,7 +150,7 @@ class TodoScreen extends ConsumerWidget {
                   ),
                   textInputAction: TextInputAction.next,
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value == null) {
                       return '未入力です';
                     }
                     return null;
@@ -167,7 +167,7 @@ class TodoScreen extends ConsumerWidget {
                     icon: Icon(Icons.calendar_today),
                   ),
                   validator: (dateTime) {
-                    if (dateTime.isEmpty) {
+                    if (dateTime == null) {
                       return '日付が未入力です。';
                     }
                     return null;
@@ -186,15 +186,17 @@ class TodoScreen extends ConsumerWidget {
             ElevatedButton(
               onPressed: () async {
                 final formatter = DateFormat('yyyy-MM-dd');
-                var todo = TodoItemData(
-                  id: null,
-                  title: _titleController.text,
-                  sentence: _sentenceController.text,
-                  createdAt: formatter.format(today),
-                  limitDate: _limitDateController.text,
+
+                final todoData = TodoItemCompanion(
+                  title: moor.Value(_titleController.text),
+                  sentence: moor.Value(_sentenceController.text),
+                  createdAt: moor.Value(formatter.format(today)),
+                  limitDate: moor.Value(_limitDateController.text),
                 );
-                if (_formKey.currentState.validate()) {
-                  await context.read(toDoStateNotifierProvider).writeData(todo);
+                if (_formKey.currentState!.validate()) {
+                  await context
+                      .read(toDoStateNotifierProvider.notifier)
+                      .writeData(todoData);
                   Navigator.of(context).pop();
                 }
               },

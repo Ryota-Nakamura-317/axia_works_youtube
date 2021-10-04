@@ -9,7 +9,7 @@ final youtubeStateProvider =
 class YouTubeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(youtubeStateProvider.state);
+    final state = watch(youtubeStateProvider);
     return Scaffold(
       appBar: _createAppBar(),
       body: Stack(
@@ -35,7 +35,7 @@ class YouTubeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _createAppBar() {
+  AppBar _createAppBar() {
     return AppBar(
       iconTheme: IconThemeData(color: Colors.black),
       title: Row(

@@ -9,7 +9,7 @@ class MercariScreen extends StatelessWidget {
   }
 }
 
-Widget _createAppBar() {
+AppBar _createAppBar() {
   return AppBar(
     centerTitle: true,
     title: Text(
